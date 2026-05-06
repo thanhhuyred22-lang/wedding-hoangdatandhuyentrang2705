@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hoàng Đạt ❤️ Huyền Trang - Wedding Invitation</title>
+
+<!-- Fonts -->
+<link href="https://googleapis.com" rel="stylesheet">
+
+<style>
+    :root {
+        --matcha: #8fbc8f;
+        --matcha-dark: #556b2f;
+        --matcha-light: #f0f5e9;
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box;}
+    
+    body {
+        font-family: 'Montserrat', sans-serif;
+        background: var(--matcha-light);
+        overflow-x: hidden;
+    }
+
+    /* ===== TRANG CHÀO (HÌNH CƯỚI CỦA BẠN) ===== */
+    .welcome-screen {
+        position: fixed;
+        inset: 0;
+        background: url('cover.jpg') center/cover no-repeat; /* Hình cưới của bạn */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+        text-align: center;
+        color: white;
+    }
+
+    .welcome-screen::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4); /* Lớp phủ làm tối ảnh nền để nổi bật chữ */
+    }
+
+    .welcome-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .welcome-title {
+        font-family: 'Great Vibes', cursive;
+        font-size: 50px;
+        margin-bottom: 10px;
+    }
+
+    .btn-open {
+        margin-top: 20px;
+        padding: 12px 30px;
+        background: var(--white, #fff);
+        color: var(--matcha-dark);
+        border: none;
+        border-radius: 25px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    /* ===== NỘI DUNG CHÍNH ===== */
+    .app { display: none; }
+
+    .scene {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 40px 0;
+        background: var(--matcha-light);
+    }
+
+    .card {
+        position: relative;
+        width: 90%;
+        max-width: 380px;
+        background: #fff;
+        border-radius: 20px;
+        padding: 40px 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        text-align: center;
+    }
+
+    .title {
+        font-family: 'Great Vibes', cursive;
+        font-size: 42px;
+        color: var(--matcha-dark);
+        margin-bottom: 10px;
+    }
+
+    .section-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 22px;
+        color: var(--matcha-dark);
+        margin-top: 30px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .info { margin: 15px 0; font-size: 15px; color: #555; }
+
+    .btn-map {
+        display: inline-block;
+        padding: 10px 20px;
+        background: var(--matcha-dark);
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 13px;
+        margin-top: 10px;
+    }
+
+    /* TIMELINE */
+    .timeline { text-align: left; margin: 20px auto; max-width: 250px; }
+    .timeline-item {
+        padding-left: 20px;
+        border-left: 2px solid var(--matcha);
+        padding-bottom: 15px;
+        position: relative;
+    }
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: -7px; top: 0;
+        width: 12px; height: 12px;
+        background: var(--matcha-dark);
+        border-radius: 50%;
+    }
+
+    /* MỪNG CƯỚI NỀN HÌNH */
+    .qr-section {
+        margin-top: 30px;
+        padding: 30px 15px;
+        background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), url('hinh2.jpg') center/cover no-repeat;
+        border-radius: 15px;
+        border: 1px solid var(--matcha);
+    }
+
+    .qr-section img {
+        width: 180px;
+        border: 5px solid #fff;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    #musicBtn {
+        position: fixed;
+        bottom: 20px; right: 20px;
+        width: 45px; height: 45px;
+        border-radius: 50%;
+        border: none;
+        background: var(--matcha-dark);
+        color: #fff;
+        cursor: pointer;
+        z-index: 1000;
+    }
+    /* Giao diện Album kiểu Instagram */
+.insta-album {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 cột như Insta */
+    gap: 5px;
+    margin-top: 20px;
+    padding: 0 5px;
+}
+
+.insta-item {
+    aspect-ratio: 1 / 1; /* Hình vuông */
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.insta-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.insta-item:hover img {
+    transform: scale(1.1);
+}
+
+/* Bộ xem ảnh phóng to (Lightbox) */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    display: none; /* Ẩn mặc định */
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    cursor: zoom-out;
+}
+
+.lightbox img {
+    max-width: 90%;
+    max-height: 80%;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(255,255,255,0.2);
+}
+
+.close-lb {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- TRANG CHÀO (WELCOME) -->
+<div class="welcome-screen" id="welcome">
+    <div class="welcome-content">
+        <h1 class="welcome-title">Hoàng Đạt & Huyền Trang</h1>
+        <p style="letter-spacing: 4px; font-size: 14px;">27 . 05 . 2026</p>
+        <button class="btn-open" onclick="openWedding()">Mở Thiệp Cưới</button>
+    </div>
+</div>
+
+<!-- NỘI DUNG CHÍNH -->
+<div class="app" id="app">
+    <div class="scene">
+        <div class="card">
+            <h1 class="title">Hoàng Đạt ❤️ Huyền Trang</h1>
+            
+            <div class="info">📅 Thứ Bảy, 27/05/2026</div>
+            <div class="info">⏰ Lúc 16:00</div>
+            <div class="info">📍 Tư gia nhà gái</div>
+            <a class="btn-map" href="https://maps.app.goo.gl/H7WZxXh9Ud97CKVL6" target="_blank">🧭 Chỉ đường</a>
+
+            <h2 class="section-title">Lịch Trình</h2>
+            <div class="timeline">
+                <div class="timeline-item"><strong>16:00</strong> - Đón khách</div>
+                <div class="timeline-item"><strong>17:00</strong> - Lễ thành hôn</div>
+                <div class="timeline-item" style="border:none;"><strong>17:30</strong> - Tiệc rượu & Văn nghệ</div>
+            </div>
+<h2 class="section-title">Album Ảnh Cưới</h2>
+<div class="insta-album">
+    <!-- Bạn có thể thêm bao nhiêu ảnh tùy thích vào đây -->
+    <div class="insta-item" onclick="viewImage(this)"><img src="hinh1.jpg"></div>
+    <div class="insta-item" onclick="viewImage(this)"><img src="hinh2.jpg"></div>
+    <div class="insta-item" onclick="viewImage(this)"><img src="hinh3.jpg"></div>
+    <div class="insta-item" onclick="viewImage(this)"><img src="hinh4.jpg"></div>
+
+</div>
+
+<!-- Lớp phủ xem ảnh phóng to -->
+<div id="lightbox" class="lightbox" onclick="this.style.display='none'">
+    <span class="close-lb">&times;</span>
+    <img id="lb-img" src="">
+</div>
+
+            <h2 class="section-title">Mừng Cưới</h2>
+            <div class="qr-section">
+                <p style="font-size: 13px; color: #444; margin-bottom: 15px; font-weight: 600;">Gửi quà mừng đến chúng mình</p>
+                <img src="qrcode.png" alt="QR Code">
+                <p style="margin-top: 15px; font-weight: bold; color: var(--matcha-dark);">Ngân hàng TPBank</p>
+                <p style="font-size: 14px;">STK: 3096 8106 322</p>
+                <p style="font-size: 13px; color: #666;">Chủ TK: Trần Huyền Trang</p>
+            </div>
+
+            <div style="margin-top: 40px; font-style: italic; color: #1a78d6; font-size: 13px;">
+                "Sự hiện diện của quý vị là vinh hạnh lớn lao cho gia đình chúng tôi. Cảm ơn bạn đã đến để cùng chia sẻ khoảnh khắc hạnh phúc này!"
+            </div>
+        </div>
+    </div>
+</div>
+
+<audio id="music" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+<button id="musicBtn" onclick="toggleMusic()">🔊</button>
+
+<script>
+    function openWedding() {
+        document.getElementById('welcome').style.transition = 'opacity 1s';
+        document.getElementById('welcome').style.opacity = '0';
+        setTimeout(() => {
+            document.getElementById('welcome').style.display = 'none';
+            document.getElementById('app').style.display = 'block';
+            document.getElementById('music').play().catch(e => console.log("Audio block"));
+        }, 1000);
+    }
+
+    function toggleMusic() {
+        const m = document.getElementById('music');
+        const b = document.getElementById('musicBtn');
+        if(m.paused) { m.play(); b.innerText = '🔊'; }
+        else { m.pause(); b.innerText = '🔈'; }
+    }
+    function viewImage(element) {
+    const src = element.querySelector('img').src;
+    document.getElementById('lb-img').src = src;
+    document.getElementById('lightbox').style.display = 'flex';
+}
+
+    function openWedding() {
+        document.getElementById('welcome').style.transition = 'opacity 1s';
+        document.getElementById('welcome').style.opacity = '0';
+        setTimeout(() => {
+            document.getElementById('welcome').style.display = 'none';
+            document.getElementById('app').style.display = 'block';
+            document.getElementById('music').play().catch(e => console.log("Audio block"));
+        }, 1000);
+    }
+
+    function toggleMusic() {
+        const m = document.getElementById('music');
+        const b = document.getElementById('musicBtn');
+        if(m.paused) { m.play(); b.innerText = '🔊'; }
+        else { m.pause(); b.innerText = '🔈'; }
+    }
+
+    function viewImage(element) {
+        const src = element.querySelector('img').src;
+        document.getElementById('lb-img').src = src;
+        document.getElementById('lightbox').style.display = 'flex';
+    }
+
+    /* ===== Slideshow cho album ===== */
+    const albumImages = [
+        "hinh1.jpg",
+        "hinh2.jpg",
+        "hinh3.jpg",
+        "hinh4.jpg",
+        
+    ];
+
+    const instaItems = document.querySelectorAll('.insta-item img');
+    let currentIndex = 0;
+
+    function autoChangeAlbum() {
+        for (let i = 0; i < instaItems.length; i++) {
+            const imgIndex = (currentIndex + i) % albumImages.length;
+            instaItems[i].src = albumImages[imgIndex];
+        }
+        currentIndex = (currentIndex + 1) % albumImages.length;
+    }
+
+    setInterval(autoChangeAlbum, 4000); // đổi ảnh mỗi 4 giây
+</script>
+
+
+</body>
+</html>
